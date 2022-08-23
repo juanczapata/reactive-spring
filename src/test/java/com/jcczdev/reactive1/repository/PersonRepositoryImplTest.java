@@ -22,4 +22,17 @@ class PersonRepositoryImplTest {
 
         assertThat(person).hasToString("Person(id=1, firstName=name1, lastName=lastName1)");
     }
+
+    @Test
+    void getByIdUsingSubscribe() {
+        Mono<Person> personMono = repository.getById(1);
+        personMono.subscribe(person -> System.out.println("From subscribe: ".concat(person.toString())));
+    }
+
+    @Test
+    void getByIdUsingFunction() {
+        Mono<Person> personMono = repository.getById(1);
+        personMono.map(person -> person.getFirstName())
+                .subscribe(firstName -> System.out.println("From function: ".concat(firstName)));
+    }
 }
