@@ -5,6 +5,6 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 public interface PersonRepository {
-    Mono<Person> getById(Integer Id);
+    Mono<Person> getById(Integer id);
     Flux<Person> getAll();
 }

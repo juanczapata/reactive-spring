@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import reactor.test.StepVerifier;
 
 import java.util.List;
 
@@ -78,5 +79,15 @@ class PersonRepositoryImplTest {
         monoPerson.doOnError(throwable -> System.out.println("Exception Thrown"))
                 .onErrorReturn(Person.builder().build())
                 .subscribe(person -> System.out.println("Wihtout exception: ".concat(person.toString())));
+    }
+
+    @Test
+    void testGetByIdImplementation() {
+        PersonRepository repo = new PersonRepositoryImpl();
+
+        StepVerifier.create(repo.getById(3))
+                .expectNextMatches(person -> person.getFirstName().equals("name3"))
+                .expectComplete()
+                .verify();
     }
 }
